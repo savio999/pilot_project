@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List{% endblock %}
+
+{% block body %}
+ <div class="container">  
+  <h5>Create list</h5>
+  {{form(create_list_form)}}
+   <br/><br/><a href="{{ path('list.view') }}">Go back</a>
+ </div>
+{% endblock %}

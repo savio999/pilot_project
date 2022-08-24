@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List{% endblock %}
+
+{% block body %}
+    {% for msg in app.flashes('success') %}           
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ msg }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %} 
+    {% for msg in app.flashes('error') %}           
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ msg }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %} 
+
+    <div class="container">
+        <h2>Lists homepage</h2>
+        <div class="text-end">
+            <a href="{{path('app_logout')}}">Logout</a>
+        </div>
+        <p><a href="{{path('list.create')}}">New List</a></p>
+        <div class="row">
+            {% for list in lists %}
+                <div class="col col-sm-3">
+                    <h5>
+                        {{ list.name }}
+                        <a href="javascript:void(0)" class="delete_list" data-id="{{list.id}}"><i class="fa-solid fa-x"></i></a>
+                    </h5>
+                    {% if list.id in itemsArr|keys%}
+                        {% for item in itemsArr[list.id] %}
+                            <p style="color:{{item.color}}">
+                                {{ item.name }}
+                                <a href="javascript:void(0)" class="delete_item" data-id="{{item.id}}"><i class="fa-solid fa-x"></i></a>
+                            </p>    
+                        {% endfor %}                      
+                    {% endif %}
+                    <div style="text-align:right">
+                        <a href="{{ path('item.create',{'list_id':list.id}) }}">Add Item</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% include 'includes/_delete_item.html.twig' %}
+{% include 'includes/_delete_list.html.twig' %}
+{% endblock %}
