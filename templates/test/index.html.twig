@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TestController!{% endblock %}
+
+{% block body %}
+<div class="container">
+  {% for msg in app.flashes('success') %}  
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{msg}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>        
+  {% endfor %}  
+
+  {{form_start(form)}}
+  {{form_widget(form)}}
+  {{form_end(form)}}
+
+  <a href="{{ path('app_home')}}" id="home_link">Home</a>
+  <input type="text" id="result" value="0" data-testid="result"/>
+</div>
+<div class="container">
+<br/>
+  <button class="btn btn-primary" id="double_click_btn" data-testid="double_click_btn">Double click me</button>
+  <button class="btn btn-primary" id="click_me_btn" data-testid="click_me_btn">click me</button>
+  <button class="btn btn-primary" id="another_btn" data-testid="another_btn">another btn</button>
+
+  <p id="double_para" style="display:none" data-testid="double_para"> This is double clicked para</p>
+</div>
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+
+<script>
+  {# setTimeout(() => {
+    var no = Math.floor(Math.random() * 10 + 1);    
+    $("#result").val(no);
+  }, 1500) #}
+
+  $(document).on("dblclick","#double_click_btn",function(){
+    $("#double_para").show();
+  })
+
+  $(document).on('click','#click_me_btn',function(){
+    var no = $("#result").val();    
+    var floatNo = parseFloat(no);
+    floatNo++;
+    $("#result").val(floatNo);
+  });
+
+  $(document).on('click','#another_btn',function(){
+    $(".test_element").remove();
+
+    // do something synchronously randomly
+    if (Math.random() < 0.5) {
+      // append an input
+      $('<input />').attr({"class":"test_element"}).appendTo($('body'))
+    } else {
+      // or append a textarea
+      $('<textarea />').attr({"class":"test_element"}).appendTo($('body'))
+    }
+  })
+</script>
+{% endblock %}

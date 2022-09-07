@@ -22,4 +22,11 @@ class HomeController extends AbstractController
 
         return $this->redirectToRoute('app_register');
     }
+
+    /**
+     * @Route("/test_page", name="test_page")
+     */
+    public function testPage(){
+        
+    }
 }

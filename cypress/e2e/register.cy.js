@@ -1,0 +1,66 @@
+describe('registration',()=>{
+  it('submitting when all fields are empty', ()=> {
+    cy.visit('/register')
+    cy.get('form#registration_form')
+    cy.contains('Signup').click()
+    cy.get('#registration_form_username.is-invalid').should('exist')
+    cy.get('#registration_form_email.is-invalid').should('exist')
+    cy.get('#registration_form_password_first.is-invalid').should('exist')
+  })
+
+  it('submitting with invalid email', ()=> {
+    cy.visit('/register')
+    cy.get('form#registration_form')
+    cy.get('#registration_form_username').type('test-user')
+    cy.get('#registration_form_email').type('aaa@')
+    cy.get('#registration_form_password_first').type('123456')
+    cy.get('#registration_form_password_second').type('123456')
+    cy.contains('Signup').click()
+    cy.get('#registration_form_email.is-invalid').should('exist')
+  })
+
+  it('passwords dont match', ()=> {
+    cy.visit('/register')
+    cy.get('form#registration_form')
+    cy.get('#registration_form_username').type('test-user')
+    cy.get('#registration_form_email').type('aaa@gm.uk')
+    cy.get('#registration_form_password_first').type('123456')
+    cy.get('#registration_form_password_second').type('1234567')
+    cy.contains('Signup').click()
+    cy.get('#registration_form_password_first.is-invalid').should('exist')
+  })
+
+  it('too short password entered', ()=> {
+    cy.visit('/register')
+    cy.get('form#registration_form')
+    cy.get('#registration_form_username').type('test-user')
+    cy.get('#registration_form_email').type('aaa@gm.uk')
+    cy.get('#registration_form_password_first').type('12')
+    cy.get('#registration_form_password_second').type('12')
+    cy.contains('Signup').click()
+    cy.get('#registration_form_password_first.is-invalid').should('exist')
+  })
+
+  it('successful registration', ()=> {
+    cy.visit('/register')
+    cy.get('form#registration_form')
+    cy.get('#registration_form_username').type('test-user')
+    cy.get('#registration_form_email').type('aaa@gm.uk')
+    cy.get('#registration_form_password_first').type('123456')
+    cy.get('#registration_form_password_second').type('123456')
+    cy.contains('Signup').click()
+    cy.get('div.alert-success').should('exist')
+  })
+
+  it('username and email already exists', ()=> {
+    cy.visit('/register')
+    cy.get('form#registration_form')
+    cy.get('#registration_form_username').type('test-user')
+    cy.get('#registration_form_email').type('aaa@gm.uk')
+    cy.get('#registration_form_password_first').type('123456')
+    cy.get('#registration_form_password_second').type('123456')
+    cy.contains('Signup').click()
+    cy.get('#registration_form_username.is-invalid').should('exist')
+    cy.get('#registration_form_email.is-invalid').should('exist')
+  })
+})
