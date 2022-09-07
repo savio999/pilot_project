@@ -24,8 +24,10 @@ class RegistrationFormType extends AbstractType
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter username'
-                ])
-                ]
+                    ])
+                ],
+                'label' => 'Username',
+                'empty_data' => ''
             ])
             ->add('email',EmailType::class,[
                 'constraints' => [
@@ -35,7 +37,9 @@ class RegistrationFormType extends AbstractType
                     new Email([
                         'message' => 'Your email doesn\'t seems to be valid'
                     ]),
-                ]
+                ],
+                'label' => 'Email',
+                'empty_data' => ''
             ])
             ->add('password',RepeatedType::class,[
                 'type' => PasswordType::class,
@@ -59,6 +63,10 @@ class RegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'attr' => [
+                'id' => 'registration_form',
+                'novalidate' => 'novalidate'
+            ],
         ]);
     }
 }

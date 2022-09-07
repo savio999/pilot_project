@@ -46,8 +46,8 @@ class RegistrationController extends AbstractController
         }
 
         $user = new User();
-        $regForm = $this->createForm(RegistrationFormType::class, $user);       
-
+        $regForm = $this->createForm(RegistrationFormType::class, $user);     
+        
         $regForm->handleRequest($request);
 
         if ($regForm->isSubmitted()) {
@@ -62,8 +62,7 @@ class RegistrationController extends AbstractController
                 )
               );
             }
-            
-          
+
            //validation
            $errors = $validator->validate($user);
            if( ! $regForm->isValid()){
@@ -74,7 +73,8 @@ class RegistrationController extends AbstractController
                     'login_last_username' => ''
 
                 ]);
-           }else{
+           }else{                
+
                 $entityManager->persist($user);
                 $entityManager->flush();
 
